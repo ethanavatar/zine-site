@@ -1,0 +1,7 @@
+---
+.title = "Post 1",
+.date = @date("1990-01-01T00:00:00"),
+.author = "Ethan Evans",
+.layout = "tabs-post.shtml",
+.draft = false,
+--- 

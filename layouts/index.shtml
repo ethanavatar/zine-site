@@ -1,7 +1,12 @@
 <extend template="base.shtml">
+
 <head id="head">
+  <meta http-equiv='refresh' content='$site.host_url.addPath($site.page("tabs").link()).prefix("0; url=")'>
 </head>
+
 <body id="body">
+  <!--
   <h1 :text="$page.title"></h1>
   <div :html="$page.content()"></div>
+  -->
 </body>
