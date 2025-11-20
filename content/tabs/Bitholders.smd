@@ -1,0 +1,84 @@
+---
+.title = "Bit Drivers",
+.date = @date("2025-09-11T00:00:00"),
+.author = "Ethan Evans",
+.layout = "tabs-post.shtml",
+.draft = true,
+--- 
+
+Not every bunch of tabs I keep open are purely educational.
+A lot of the time, they are basically just shopping lists.
+For most things I want to buy, I just put them in a real shopping list,
+but the things I leave tabs open for tend to be shopping decisions that I have put a huge amount of thought into.
+In a sense, they aren't so much decisions as they are paper-trails for how I landed on a decision.
+
+One of my more recent research sprees has been about screwdrivers,
+and it all started when YouTube recommended me a video from Todd Parker [[1]]($link.ref('References')) talking about a bit driver from Wiha called the Centrofix.
+
+I've been using multi-bit screwdrivers for ever now,
+so the drivers I'm used to have long shafts with bulky and wobbly magnetic holders at the end to hold stubby bits.
+The video about the Centrofix sold me almost imediately on the fact that the driver's collet is so close to the handle rather than at the end of a long shaft.
+Then with the use of very long bladed bits, the tool comes to essentially the same length as a standard screwdriver.
+I hadn't heard of the "Bit Driver" category of tools before, so I didn't know that this "shaftless" design was actually quite common.
+
+To me, this is the killer feature of bit drivers over the typical multi-bit screwdrivers.
+The primary situations where I'm using screwdrivers are in electronics,
+and it's quite common to run into screw holes that are recessed in a hole that my multi-bit driver's shaft can't fit into,
+so I need to pull out a standard fixed-blade screwdriver, or even the precision screwdriver set.
+
+By now I had thrown the Wiha Centrofix right into my Amazon wishlist.
+
+## [Bits]($section.id('Bits'))
+
+Of course, my collection of screwdriver bits are almost entirely the usual short kind,
+and if I wanted to get a bitholder like the Centrofix,
+I'll also need to build a solid collection of bits 90mm long or longer.
+
+I don't need every drive style or size out there, just the stuff I use most often.
+
+Tentative Requirements:
+- Tamper Resistant Torx
+  - My current favorite drive style. I would like to have these more than any other drive style.
+  - Mandatory: From T8 to T40
+  - Would be nice: T5 and T6
+
+- Internal Hex
+  - Tamper resistant is a bonus (because I'm a gear head), but absolutely not necessary.
+  - Mandatory: 2mm to 5mm
+  - Would be nice: 1.5mm for the occasional stepper motor set screw (they usually come with keys anyways)
+
+- Philips
+  - Mandatory: PH2, PH3
+
+In that same Todd Parker Video [[1]]($link.ref('References')),
+he mentions that Wiha themselves have a lineup of long-bladed bits that fit perfectly with the Centrofix called PowerBlade,
+so thats the first logical place to look.
+
+// TODO: Power Blade Selection
+https://www.wihatools.com/products/power-blade-37-piece-set
+
+LABEAR - 10pc METRIC 4 inch long Tamper Hex
+https://www.amazon.com/gp/product/B0C5R5MGDF?smid=A2HAAGIA6VU6NK&th=1
+
+// TODO: Talk about the "JIS problem"
+https://www.webbikeworld.com/hozan-jis-screwdrivers-review/
+
+Vessel Philips Bits:
+- [Bit No.B35(+0 x 2 x 30 x 100H)]($link.url('https://vesseltoolsusa.com/products/industrial_bit/446157').new(true))
+- [Bit No.B35(+1 x 4.5 x 100H)]($link.url('https://vesseltoolsusa.com/products/industrial_bit/424036').new(true))
+  - https://www.zoro.com/vessel-power-bit-14-hex-b-1x45x100h-pk10-b35p145100h/i/G302667847
+- [Bit No.B35(+2 x 100H)]($link.url('https://vesseltoolsusa.com/products/industrial_bit/424048').new(true))
+  - https://www.zoro.com/vessel-power-bit-14-hex-b-2x100h-pk10-b35p2775100h/i/G702667874/
+- [Bit No.B35(+3 x 100H)]($link.url('https://vesseltoolsusa.com/products/industrial_bit/424052/').new(true))
+  - https://www.zoro.com/vessel-power-bit-14-hex-b-3x100h-pk10-b35p3100h/i/G102667801/
+- [Bit No.B35(+00 x 2 x 40 x 100H)]($link.url('https://vesseltoolsusa.com/products/industrial_bit/446141/').new(true))
+  - https://www.zoro.com/vessel-power-bit-14-hex-b-00x2x40x100-pk10-b35p00240100h/i/G602667806/
+
+
+## [References]($section.id('References'))
+
+1. [Todd Parker (YouTube) - My Quest For The Ultimate Bit Driver: Replace Your Screwdrivers With This Kit]($link.url('https://www.youtube.com/watch?v=vpMtg03CQOg').new(true))
+
+2. [BZEUG (YouTube) - Is the Wiha CentroFix better than other bit holders?]($link.url('https://www.youtube.com/watch?v=vGDg27AjQR4').new(true))
+
+3. [BZEUG (YouTube) - Why bit drivers? Are screwdrivers all you need? Japanese bits may change your mind.]($link.url('https://www.youtube.com/watch?v=kII3MQepXDg').new(true))

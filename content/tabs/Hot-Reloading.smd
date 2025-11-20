@@ -1,0 +1,427 @@
+---
+.title = "Hot Reloading",
+.date = @date("2025-09-10T00:00:00"),
+.author = "Ethan Evans",
+.layout = "tabs-post.shtml",
+.draft = true,
+--- 
+
+[]($section.id('Intro'))
+
+I've left a lot of tabs open about implementing hot reloading for gameplay code.
+It's not that I don't know how to do it; I've done it enough times that I don't need to keep these guides around.
+I guess I've just been dissatisfied with how I've implemented it in the past,
+and keeping those guides open was a sort of way to remind myself to keep thinking about approaches.
+
+There are parts of my implementation that can definitely be made more ergonomic,
+but I'm realizing now that a lot of my annoyance with it is kind of just the cost of doing buisness.
+Sometimes, when you're programming things from scratch, stuff is just gonna be annoying.
+
+So for this post, I'm gonna look through one of my (most recently abandoned) game projects,
+how I wrote the hot reloading for it, and how I would do it today.
+
+## [Basics]($section.id('Basics'))
+
+When you're making a game project that doesn't have hot reloading, the main-loop probably looks something like this:
+
+```c
+/* main.c */
+
+void game_init(void)   { /* ... */ }
+void game_update(void) { /* ... */ }
+void game_deinit(void) { /* ... */ }
+
+int main(void) {
+    // ---- Init ----
+    game_init();
+
+    while (!should_quit) {
+
+        // ---- Update ----
+        game_update();
+    }
+
+    // ---- Clean up ----
+    game_deinit();
+}
+```
+
+The basic idea of hot reloading is that the game's functions (`game_init/update/deinit`)
+are located in a seperate module that is found and loaded at runtime.
+To reload the game code without stopping the whole program,
+you just unload the module, recompile it, load the new one,
+and now you have freshly modified versions of `init/update/deinit` ready to call.
+
+First, the game functions need to be moved to a shared library and be exported to be used from the main executable.
+
+```c
+/* game.c */
+
+extern void game_init(void)   { /* ... */ }
+extern void game_update(void) { /* ... */ }
+extern void game_deinit(void) { /* ... */ }
+```
+
+Then, when this file is compiled into its own dynamic library,
+the main executable can use use OS APIs to find the functions it exports.
+
+```c
+/* main.c */
+
+#include <stdio.h>
+#include <windows.h> // For library loading functions
+
+static HMODULE game_module = INVALID_HANDLE_VALUE;
+
+typedef void (*GameInitFunction)   (void);
+typedef void (*GameUpdateFunction) (void);
+typedef void (*GameDeinitFunction) (void);
+
+// Pointers to the game functions loaded from the game module
+GameInitFunction   game_init    = NULL;
+GameUpdateFunction game_update  = NULL;
+GameDeinitFunction game_deinit = NULL;
+
+void reload_game_functions(void) {
+    // Unload the old library
+    FreeLibrary(game_module);
+
+    FILE *game_dll = fopen("game.dll", "rb");
+    FILE *game_loaded_dll = fopen("game_loaded.dll", "w");
+
+    // Copy the library to another file so that you don't run into
+    // issues with the file still being in-use when recompiling
+    while ((character = fgetc(source_file)) != EOF) {
+        fputc(character, destination_file);
+    }
+
+    fclose(game_dll);
+    fclose(game_loaded_dll);
+
+    // Load the new library from the copied file
+    game_module = LoadLibraryA("game_loaded.dll");
+
+    // Get the function pointers from the new library
+    game_init   = (GameInitfunction)   GetProcAddress(game_module, "game_init");
+    game_update = (GameUpdatefunction) GetProcAddress(game_module, "game_update");
+    game_deinit = (GameDeinitfunction) GetProcAddress(game_module, "game_deinit");
+}
+```
+
+Now, if `reload_game_functions` is called before any of the game functions are called,
+everything should run exactly like before.
+
+The simplest way to trigger a reload whenever game.dll gets recompiled is by checking if the file was modified at any point after the last time is was reloaded.
+
+```c
+/* main.c */
+
+FILETIME last_reload = 0;
+
+bool game_should_reload(HANDLE dll, FILETIME *last_write) {
+    // Read the dll's time-related properties.
+    // We only care about `last_write` though
+    FILETIME _creation_time, _last_access;
+    GetFileTime(dll, &_creation_time, &_last_access, last_write);
+
+    // returns 1 if the first arg is a later point in time than the second one,
+    // which means a reload should happen
+    return CompareFileTime(last_write, &last_reload) == 1;
+}
+```
+
+The actual "reloading" part happens inside the main loop itself.
+
+```c
+/* main.c */
+
+int main(void) {
+
+    // ---- Init ----
+
+    // Do the initial load
+    reload_game_functions();
+
+    // Set the last reload time to the current time and
+    GetSystemTimeAsFileTime(&last_reload);
+
+    // Open game.dll to read its properties
+    HANDLE game_dll = CreateFile(
+        "game.dll",
+        GENERIC_READ, FILE_SHARE_READ, NULL,
+        OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL
+    );
+
+    game_init();
+
+    while (!should_quit) {
+        // ---- Reloading ----
+
+        FILETIME last_write;
+        if (game_should_reload(game_dll, &last_write)) {
+            reload_game_functions();
+
+            // Update the last reload time
+            // so that another reload won't happen until game.dll is written to again
+            last_reload = last_write;
+        }
+
+        // ---- Update ----
+
+        game_update();
+    }
+
+    // ---- Clean up ----
+
+    game_deinit();
+
+    CloseHandle(game_dll);
+    FreeLibrary(game_module);
+}
+```
+
+In this specific project of mine, I was using [Make]($link.url('https://en.wikipedia.org/wiki/Make_(software)').new(true)) as a build system.
+
+To run a build of the entire project (ex: `main.c` and `game.c` together), I would just run `make`,
+but if the program was running and I wanted build only `game.c` and trigger a hot reload, I would run `make game`,
+where `game` is a phony rule.
+
+Roughly, the rules were like this:
+
+```make
+.PHONY: all
+all: engine
+
+.PHONY: game
+game: $(OUT_DIR)/game.dll
+
+$(OUT_DIR)/engine.exe: main.c game.c
+	$(CC) $(INCLUDES) -o $(OUT_DIR)/engine $< $(C_FLAGS) $(LINK_FLAGS) -lopengl32 -lgdi32
+
+$(OUT_DIR)/game.dll: game.c
+	$(CC) $(INCLUDES) -shared -o $(OUT_DIR)/game.dll $< $(C_FLAGS) $(LINK_FLAGS) -lopengl32 -lgdi32
+```
+
+## [Persistent State]($section.id('Persistent-State'))
+
+That part handles the reloading of the actual game code without the window closing,
+but assuming game-state is kept in file-scoped variables in `game.c`,
+their values are going to get reinitialized on every reload,
+so its not much different that just restarting the program.
+Worse is, if anything is being done inside of `game_init`,
+those changes are effectively erased when the reload happens,
+and init isn't going to run again because its not supposed to.
+
+A solution to this is to give ownership of the game state to the main executable so the data lives between reloads.
+
+The way I did it in this project is by defining te game's state struct in its header.
+
+```c
+/* game.h */
+
+struct State {
+    // ---- Engine references ----
+
+    struct Renderer *renderer;
+    struct Input *input;
+
+    // ---- Game state ----
+    bool tilemap[TILEMAP_WIDTH][TILEMAP_HEIGHT];
+
+    struct Vector2 player_position;
+    struct Vector2 player_velocity;
+    struct Vector2 player_acceleration;
+};
+```
+
+Then, in the main function, the state is allocated on the stack,
+and all the game functions are passed a pointer to it.
+
+```c
+/* main.c */
+
+#include "game.h"
+
+int main(void) {
+
+    // ---- Init ----
+    // ...
+
+    struct State game_state = {
+        .renderer = &renderer,
+        .input    = &input,
+    };
+    
+    game_init(&game_state);
+
+    while (!should_quit) {
+        // ...
+
+        // ---- Update ----
+
+        game_update(&game_state);
+    }
+
+    // ---- Clean up ----
+
+    game_deinit(&game_state);
+
+    // ...
+}
+```
+
+I don't know why I thought this was a good idea. Maybe I was just really into using stack memory at the time.
+
+Creating the state on the stack requires the struct to be publically visible,
+which requires a header file.
+And having a header file is not the end of the world,
+but It does introduce a bit of jumping around which can get annoying pretty quickly.
+
+By allocating the game state on the heap,
+and giving the game code responsibility of that allocation, the header file no longer needs to exist.
+
+
+```c
+/* game.c */
+
+// Moved from the header into the source file 
+// because it doesnt need to be publically visible anymore
+struct State {
+    // ---- Engine references ----
+
+    struct Renderer *renderer;
+    struct Input *input;
+
+    // ---- Game state ----
+    bool tilemap[TILEMAP_WIDTH][TILEMAP_HEIGHT];
+
+    struct Vector2 player_position;
+    struct Vector2 player_velocity;
+    struct Vector2 player_acceleration;
+};
+
+// This is a pointer because the state needs to exist after the DLL is unloaded
+struct State *self = NULL;
+
+void game_init(struct Renderer *renderer, struct Input *input) {
+    // Heap allocate a new game state
+    self = malloc(sizeof(struct State));
+    memset(self, 0, sizeof(struct State));
+
+    self.renderer = renderer;
+    self.input    = input;
+}
+
+// This is a new API that the engine code will use to save the state in order to pass to the reloaded DLL
+void *game_memory(void) {
+    return self;
+}
+
+// This is a new API that the engine code will use to give the reloaded DLL the state from before the reload
+void game_reload(void *state_ptr) {
+    self = (struct State*) state_ptr;
+}
+
+void game_deinit(void) {
+    // Now we need to deallocate the state when we're done with it because it was heap allocated
+    free(self);
+}
+```
+
+
+```c
+/* main.c */
+
+typedef void *(*GameMemoryFunction) (void); // NEW
+typedef void  (*GameReloadFunction) (void *); // NEW
+typedef void  (*GameInitFunction)   (struct Renderer *, struct Input *); // CHANGED
+
+// Of course the new functions also need to be loaded inside of `reload_game_functions`
+```
+
+```c
+/* main.c */
+/* Inside the main loop */
+
+// ---- Reloading ----
+
+FILETIME last_write;
+if (game_should_reload(game_dll, &last_write)) {
+     // Save the state before reloading
+    void *game_state = game_memory();
+
+    // Reload
+    reload_game_functions();
+
+    // Give the old state to the newly loaded DLL
+    game_reload(game_state);
+
+    last_reload = last_write;
+}
+```
+
+## [Allocator Objects]($section.id('Allocator-Objects'))
+
+In this project, I was using a collection of custom allocators with API's designed very similar to [those found in Zig's standard library]($link.url('https://zig.guide/master/standard-library/allocators/').new(true)).
+
+The example from before, with the stack allocated game state looks more like this in the actual codebase:
+
+```c
+/* game.h */
+
+struct State {
+    // ---- Engine references ----
+
+    struct Renderer *renderer;
+    struct Input *input;
+
+    struct Allocator *persistent_allocator;
+    struct Allocator *frame_allocator;
+
+    // ...
+};
+```
+
+```c
+/* main.c */
+
+int main(void) {
+
+    // ...
+    
+    struct ArenaAllocator persistent = arena_allocator_init(MiB(10));
+    struct ArenaAllocator frame      = arena_allocator_init(MiB(10));
+
+    struct State game_state = {
+        .renderer = &renderer,
+        .input    = &input,
+
+        .persistent_allocator = &persistent.allocator,
+        .frame_allocator      = &persistent.allocator,
+    };
+    
+    game_init(&game_state);
+
+    while (!should_quit) {
+        // ...
+
+        game_update(&game_state);
+        arena_clear(frame_allocator);
+    }
+
+    game_deinit(&game_state);
+
+    // ...
+}
+```
+
+A problem that I got really hung up on when I was writing this project originally was how to organize the use of these allocators across the seperation of engine and game code.
+
+
+
+## [Tabs]($section.id('Tabs'))
+
+- https://zylinski.se/posts/hot-reload-gameplay-code/
+- https://zig.news/jackji/hot-reloading-in-zig-107e
+
+- https://github.com/ethanavatar/allocators/blob/main/game/game_loader.c

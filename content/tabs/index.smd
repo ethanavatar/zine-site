@@ -6,6 +6,8 @@
 .draft = false,
 --- 
 
+```=html
+<!--
 # [About]($section.id('about'))
 
 I have a little bit of a hoarding problem when it comes to browser tabs and bookmarks...
@@ -66,4 +68,7 @@ and you just need to go out of your way to get them there. They arent gonna fini
 So that's basically what I want to do here.
 I'm going to go through my thousands of browser tabs, bookmarks, saved posts,
 and I'm going to finish my projects.
+
+-->
+```
 

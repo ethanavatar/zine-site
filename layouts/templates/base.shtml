@@ -9,16 +9,22 @@
     <super>
   </head>
   <body id="body">
-    <h1 class="site-title" :text="$site.title"></h1>
     <nav>
-      <!--
+      <ctx :if="$site.page('photos').subpages().first?()">
+        <a href="$if.link()">Photography</a>
+      </ctx>
+
+        <!--
       <ctx :if="$site.page('tabs').subpages().first?()">
          &nbsp; • &nbsp;
-        <a href="$if.link()">Bottomless Browser Tabs</a>
+        <a href="$if.link()">Too Many Tabs</a>
       </ctx>
-      -->
+        -->
 
     </nav>
+
+    <h1 class="site-title" :text="$site.title"></h1>
+
     <super>
   </body>
 </html>

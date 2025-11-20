@@ -20,6 +20,7 @@ html {
   color: #ccc;
   font-family: "Georgia", serif;
   font-size: 1.2em;
+
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -29,6 +30,7 @@ html {
 body {
   width: 800px;
   padding: 15px;
+
   display: flex;
   flex-direction: column;
 }

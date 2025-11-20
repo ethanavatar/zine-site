@@ -35,3 +35,40 @@ code.ziggy .numeric.constant {
 code.ziggy .function {
   color: var(--blue);
 }
+
+code.c {}
+
+code.c .comment {
+  color: var(--comment-gray);
+}
+
+code.c .string {
+  color: var(--dark-yellow);
+}
+
+code.c .variable,
+code.c .field {
+  color: var(--light-yellow);
+}
+
+code.c .keyword.function {
+  color: var(--light-red);
+}
+
+code.c .bracket {
+  color: var(--cyan);
+}
+
+code.c .function {
+  color: var(--blue);
+}
+
+code.c .builtin {
+  color: var(--magenta);
+}
+
+code.c .operator,
+code.c .qualifier,
+code.c .attribute {
+  color: var(--light-red);
+}

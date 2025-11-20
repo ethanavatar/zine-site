@@ -1,0 +1,249 @@
+<extend template="photos-template.shtml">
+<head id="head">
+  <style>
+    .date {
+      font-size: 0.9em;
+    }
+    
+    .title h3 {
+      margin-top: 0;
+    }
+
+    .outer-thumbs {
+        position: relative;
+        width: 100dvw;
+        left: calc(50% - 50dvw);
+
+        padding: 20px;
+    }
+
+    .thumbs {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-content: flex-start;
+      align-items: stretch;
+
+      /* for demo: */
+      width: calc(100% - 40px);
+      border: 1px solid #ccc;
+      resize: both;
+    }
+
+    .thumb {
+      position: relative;
+      display: inline-block;
+      flex: 1 0 auto;
+
+      width: auto;
+      height: 200px;
+
+      /* cosmetics and zoom: */
+      margin: 2px;
+      text-decoration: none;
+      background-color: rgba(0,0,0, 0.50);
+      box-shadow: 0px 0px 0px 0px rgba(0,0,0, 0.0);
+      transition: box-shadow 300ms, transform 400ms, z-index 400ms, background-position 400ms;
+      z-index: 1;
+    }
+
+    .thumb:hover {
+      /* zoom: */
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0, 0.7);
+      transform: scale(1.2, 1.2);
+      z-index: 1;
+    }
+
+    .thumb-img {
+      background-size: cover;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+    }
+
+/*
+    .thumb-img:hover {
+      animation-name: thumb-scroll;
+      animation-delay: 400ms;
+      animation-duration: 2.5s;
+      animation-iteration-count: infinite;
+      animation-direction: normal;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes thumb-scroll {
+      15%, 35% { background-position: 0% 0%; }
+      65%, 85% { background-position: 100% 100%; }
+    }
+*/
+
+    .thumb-img > img {
+      display: block;
+      height: 100%;
+      opacity: 0;
+    }
+
+    .thumb > div {
+      font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #fff;
+      padding: 0px 2px;
+      overflow: hidden;
+    }
+    .thumb > div > span {
+      display: block;
+    }
+    .thumb > div > span:first-child { /* title */
+      font-weight: bold;
+    }
+    .thumb > div > span:last-child { /* subtext */
+      font-size: 0.8em;
+    }
+
+    .thumb-img > div {
+      display: block;
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      width: 100%;
+      white-space: nowrap;
+      background-color: rgba(0,0,0, 0.30);
+      opacity: 0;
+      transition: opacity 300ms;
+    }
+    .thumb-img > div > span { /* title */
+      font-size: 0.8em;
+    }
+    .thumb-img:hover > div { /* content */
+      opacity: 1;
+    }
+
+    .thumb-txt > div {
+      display: block;
+      width: auto;
+      height: 100%;
+    }
+
+    .thumbs:after {
+      content: "";
+      flex: 100 0 auto;
+    }
+
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: #bbb;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    @media only screen and (max-width: 700px){
+      .responsive {
+        width: 49.99999%;
+        margin: 6px 0;
+      }
+      .modal-content {
+        width: 100%;
+      }
+    }
+
+    @media only screen and (max-width: 500px){
+      .responsive {
+        width: 100%;
+      }
+    }
+
+    /* Clear Floats */
+    .clearfix:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 100px; /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    }
+
+    /* Modal Content (image) */
+    .modal-content {
+      margin: auto;
+      display: block;
+      width: auto;
+      max-height: calc(100dvh - 10%);
+    }
+
+  </style>
+</head>
+<body id="body">
+  <!-- <h1 :text="$page.title"></h1> -->
+  <!-- <div :html="$page.content()"></div> -->
+
+<div class="outer-thumbs">
+    <div id="thumbs" class="thumbs" :loop="$site.asset('photos.json').ziggy()">
+        <div class="thumb thumb-img" style="$loop.it.get('img').prefix('background-image: url(').suffix(')')">
+          <img src="$loop.it.get('img')" alt="">
+          <div>
+            <span>Example title</span>
+            <span>Example subtext</span>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div id="focusModal" class="modal" onClick="">
+  <span class="close">×</span>
+  <img class="modal-content" id="modalImage">
+</div>
+
+<script>
+var modal = document.getElementById('focusModal');
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function() { modal.style.display = "none"; }
+
+var images   = document.getElementsByTagName('img');
+var modalImg = document.getElementById("modalImage");
+
+window.onclick = function(event) {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+}
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    modal.style.display = "none";
+  }
+})
+
+for (var i = 0; i < images.length; i++) {
+  images[i].onclick = function(){
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    modalImg.alt = this.alt;
+    captionText.innerHTML = this.nextElementSibling.innerHTML;
+  }
+}
+</script>
+
+</body>

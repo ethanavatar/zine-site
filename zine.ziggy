@@ -1,6 +1,6 @@
 Site {
-    .title = "Writing of a Bird-brain",
-    .host_url = "https://example.com",
+    .title = "Ethan Evans",
+    .host_url = "https://blog.eevans.xyz",
 
     .content_dir_path = "content",
     .layouts_dir_path = "layouts",
