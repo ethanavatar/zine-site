@@ -174,7 +174,6 @@
       background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
     }
 
-
     /* Modal Content (image) */
     .modal-content {
       position: absolute;
@@ -203,8 +202,7 @@
   </style>
 </head>
 <body id="body">
-
-    <h1 class="site-title">Photos</h1>
+    <h1 class="site-title" style="text-align: center;">Photos</h1>
 
     <div class="outer-thumbs">
         <div id="thumbs" class="thumbs" :loop="$site.asset('photos.json').ziggy()">
@@ -212,14 +210,14 @@
                class="thumb thumb-img"
                style="$loop.it.get('img').prefix('background-image: url(').suffix(')')">
 
-              <img src="$loop.it.get('img')" alt="">
+              <img loading="lazy" src="$loop.it.get('img')" alt="">
             </a>
 
             <div class="modal" id="$loop.it.get('name').prefix('focus-')">
                 <a href="#!" class="modal-fill">
                     <div class="close">×</div>
                 </a>
-                <img class="modal-content" src="$loop.it.get('img')" alt="">
+                <img loading="lazy" class="modal-content" src="$loop.it.get('img')" alt="">
             </div>
         </div>
     </div>
