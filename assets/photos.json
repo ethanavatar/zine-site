@@ -1,8 +1,23 @@
 [
-    { "img": "https://preview.redd.it/using-digital-out-with-dock-running-rockbox-v0-s8xjqh4no92g1.jpeg?width=640&crop=smart&auto=webp&s=9f5b26f2e86e21778dc851d0a99c449f2336be61" },
-    { "img": "https://preview.redd.it/what-i-wish-i-had-known-earlier-so-maybe-it-can-help-you-too-v0-z6a9eddor72g1.jpeg?width=640&crop=smart&auto=webp&s=7570d8704e6081ad61c26a9aedcf72e4a708556b" },
-    { "img": "https://preview.redd.it/u2zifrotdfzf1.jpeg?width=640&crop=smart&auto=webp&s=1d0a654293ae338bd505cb201c3be08dbc3abc25" },
-    { "img": "https://preview.redd.it/damn-v0-4a2szy3910yf1.jpeg?format=pjpg&auto=webp&s=9e36bb7e4c34b9a7e167aac8aac51e8e1036b605" },
-    { "img": "https://i.redd.it/clape0aupmxf1.png" }
+    {
+        "name": "ipod-dock",
+        "img": "https://preview.redd.it/using-digital-out-with-dock-running-rockbox-v0-s8xjqh4no92g1.jpeg?width=640&crop=smart&auto=webp&s=9f5b26f2e86e21778dc851d0a99c449f2336be61"
+    },
+    {
+        "name": "gen7",
+        "img": "https://preview.redd.it/what-i-wish-i-had-known-earlier-so-maybe-it-can-help-you-too-v0-z6a9eddor72g1.jpeg?width=640&crop=smart&auto=webp&s=7570d8704e6081ad61c26a9aedcf72e4a708556b"
+    },
+    {
+        "name": "asian",
+        "img": "https://preview.redd.it/u2zifrotdfzf1.jpeg?width=640&crop=smart&auto=webp&s=1d0a654293ae338bd505cb201c3be08dbc3abc25"
+    },
+    {
+        "name": "makima",
+        "img": "https://preview.redd.it/damn-v0-4a2szy3910yf1.jpeg?format=pjpg&auto=webp&s=9e36bb7e4c34b9a7e167aac8aac51e8e1036b605"
+    },
+    {
+        "name": "unixporn",
+        "img": "https://i.redd.it/clape0aupmxf1.png"
+    }
 ]
 

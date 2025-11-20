@@ -61,23 +61,6 @@
       background-repeat: no-repeat;
     }
 
-/*
-    .thumb-img:hover {
-      animation-name: thumb-scroll;
-      animation-delay: 400ms;
-      animation-duration: 2.5s;
-      animation-iteration-count: infinite;
-      animation-direction: normal;
-      animation-timing-function: linear;
-      animation-fill-mode: forwards;
-    }
-
-    @keyframes thumb-scroll {
-      15%, 35% { background-position: 0% 0%; }
-      65%, 85% { background-position: 100% 100%; }
-    }
-*/
-
     .thumb-img > img {
       display: block;
       height: 100%;
@@ -132,6 +115,7 @@
 
     .close {
       position: absolute;
+      text-decoration: none;
       top: 15px;
       right: 35px;
       color: #f1f1f1;
@@ -174,13 +158,17 @@
     .modal {
       display: none; /* Hidden by default */
       position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      padding-top: 100px; /* Location of the box */
+
+      z-index: 100; /* Sit on top */
+
       left: 0;
       top: 0;
-      width: 100%; /* Full width */
+
+      width: 100%;  /* Full width */
       height: 100%; /* Full height */
+
       overflow: auto; /* Enable scroll if needed */
+
       background-color: rgb(0,0,0); /* Fallback color */
       background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
     }
@@ -188,62 +176,43 @@
     /* Modal Content (image) */
     .modal-content {
       margin: auto;
+      margin-top: 100px;
+
       display: block;
       width: auto;
       max-height: calc(100dvh - 10%);
     }
 
+    .modal:is(:target)  { display: block; }
+    .modal:not(:target) { display: none; }
+
+    .modal-fill {
+      z-index: -1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+    }
+
   </style>
 </head>
 <body id="body">
-  <!-- <h1 :text="$page.title"></h1> -->
-  <!-- <div :html="$page.content()"></div> -->
+    <div class="outer-thumbs">
+        <div id="thumbs" class="thumbs" :loop="$site.asset('photos.json').ziggy()">
+            <a href="$loop.it.get('name').prefix('#focus-')"
+               class="thumb thumb-img"
+               style="$loop.it.get('img').prefix('background-image: url(').suffix(')')">
 
-<div class="outer-thumbs">
-    <div id="thumbs" class="thumbs" :loop="$site.asset('photos.json').ziggy()">
-        <div class="thumb thumb-img" style="$loop.it.get('img').prefix('background-image: url(').suffix(')')">
-          <img src="$loop.it.get('img')" alt="">
-          <div>
-            <span>Example title</span>
-            <span>Example subtext</span>
-          </div>
+              <img src="$loop.it.get('img')" alt="">
+            </a>
+
+            <div class="modal" id="$loop.it.get('name').prefix('focus-')">
+                <a href="#!" class="modal-fill">
+                    <div class="close">×</div>
+                </a>
+                <img class="modal-content" src="$loop.it.get('img')" alt="">
+            </div>
         </div>
     </div>
-</div>
-
-<div id="focusModal" class="modal" onClick="">
-  <span class="close">×</span>
-  <img class="modal-content" id="modalImage">
-</div>
-
-<script>
-var modal = document.getElementById('focusModal');
-var span = document.getElementsByClassName("close")[0];
-span.onclick = function() { modal.style.display = "none"; }
-
-var images   = document.getElementsByTagName('img');
-var modalImg = document.getElementById("modalImage");
-
-window.onclick = function(event) {
-  if (event.target === modal) {
-    modal.style.display = "none";
-  }
-}
-
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
-    modal.style.display = "none";
-  }
-})
-
-for (var i = 0; i < images.length; i++) {
-  images[i].onclick = function(){
-    modal.style.display = "block";
-    modalImg.src = this.src;
-    modalImg.alt = this.alt;
-    captionText.innerHTML = this.nextElementSibling.innerHTML;
-  }
-}
-</script>
-
 </body>
