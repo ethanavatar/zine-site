@@ -3,13 +3,12 @@
   <head id="head">
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1">
-    <title>Too Many Tabs</title>
+    <title>Photos</title>
     <link type="text/css" rel="stylesheet" href="$site.asset('style.css').link()">
     <link type="text/css" rel="stylesheet" href="$site.asset('highlight.css').link()">
     <super>
   </head>
   <body id="body">
-    <h1 class="site-title">Photos</h1>
     <super>
   </body>
 </html>
