@@ -18,6 +18,8 @@ pub fn build(b: *std.Build) void {
     });
 
     b.installArtifact(lib);
+
+    // TODO: make "mipmaps" of the 4k images at build-time so that thumbnails can be shown
     b.getInstallStep().dependOn(&zine.website(b, .{}).step);
 
     const serve = b.step("serve", "Start the Zine dev server");
