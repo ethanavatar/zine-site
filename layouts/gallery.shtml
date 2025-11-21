@@ -17,15 +17,24 @@
     <div class="outer-thumbs" :if="$page.custom.get?('gallery')">
         <div id="thumbs" class="thumbs" :loop="$site.asset($if).ziggy()">
 
-            <a href="$loop.idx.str().prefix('#focus-')" class="thumb-anchor">
-                <div :if="$loop.it.get('kind').eql('remote')">
-                    <img class="thumb" loading="lazy" src="$loop.it.get('img')" alt="">
-                </div>
+            <div class="thumb-anchor">
+                <a href="$loop.idx.str().prefix('#focus-')">
+                    <div :if="$loop.it.get('kind').eql('remote')">
+                        <img class="thumb" loading="lazy" src="$loop.it.get('img')" alt="">
+                    </div>
 
-                <div :if="$loop.it.get('kind').eql('site')">
-                    <img class="thumb" loading="lazy" src="$site.asset($loop.it.get('img')).link()" alt="">
+                    <div :if="$loop.it.get('kind').eql('site')">
+                        <img class="thumb" loading="lazy" src="$site.asset($loop.it.get('img')).link()" alt="">
+                    </div>
+                </a>
+
+                <!--
+                <div class="thumb tile-overlay">
+                    <a href="#" class="goto-gallery">Gallery</a>
                 </div>
-            </a>
+                -->
+            </div>
+
 
             <div class="modal" id="$loop.idx.str().prefix('focus-')">
                 <a href="#!" class="close">×</a>
