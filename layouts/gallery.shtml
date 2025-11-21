@@ -15,7 +15,7 @@
     </nav>
 
     <div class="outer-thumbs" :if="$page.custom.get?('gallery')">
-        <div id="thumbs" class="thumbs" :loop="$site.asset($if).ziggy()">
+        <div id="thumbs" class="thumbs" :loop="$site.asset($if.suffix('.json')).ziggy()">
 
             <div class="thumb-anchor">
                 <a href="$loop.idx.str().prefix('#focus-')">
@@ -27,18 +27,17 @@
                         <img class="thumb" loading="lazy" src="$site.asset($loop.it.get('img')).link()" alt="">
                     </div>
                 </a>
-
-                <!--
-                <div class="thumb tile-overlay">
-                    <a href="#" class="goto-gallery">Gallery</a>
-                </div>
-                -->
             </div>
 
-
             <div class="modal" id="$loop.idx.str().prefix('focus-')">
+                <!-- TODO: Add darker backgrounds to these buttons -->
                 <a href="#!" class="close">×</a>
                 <a href="#!" class="modal-fill"></a>
+
+                <span :if="$loop.it.get('gallery').eql($page.custom.get('gallery')).not()">
+                    <a href="$site.page('photos').link().addPath($loop.it.get('gallery'))"
+                       class="goto-gallery">Goto Gallery</a>
+                </span>
 
                 <span :if="$loop.idx.gt(1)">
                     <a href="$loop.idx.plus(-1).str().prefix('#focus-')" class="prev">&lt;</a>

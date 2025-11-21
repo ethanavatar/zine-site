@@ -5,8 +5,6 @@
 .layout = "gallery.shtml",
 .draft  = false,
 
-.custom = {
-    .gallery = "picks.json",
-}
+.custom = { .gallery = "picks", }
 --- 
 

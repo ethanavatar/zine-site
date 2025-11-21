@@ -2,21 +2,25 @@
     {
         "name": "asian",
         "kind": "remote",
+        "gallery": "memes",
         "img": "https://preview.redd.it/u2zifrotdfzf1.jpeg?width=640&crop=smart&auto=webp&s=1d0a654293ae338bd505cb201c3be08dbc3abc25"
     },
     {
         "name": "sacred-bionicles",
         "kind": "remote",
+        "gallery": "memes",
         "img": "https://i.redd.it/140wqokfoctf1.jpeg"
     },
     {
         "name": "coughing-baby",
         "kind": "remote",
+        "gallery": "memes",
         "img": "https://i.redd.it/k8xamok7kjqf1.jpeg"
     },
     {
         "name": "brando-vs-everyone",
         "kind": "remote",
+        "gallery": "memes",
         "img": "https://i.redd.it/xixnhuqmbmkf1.jpeg"
     }
 ]
