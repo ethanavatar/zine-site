@@ -1,0 +1,53 @@
+<extend template="photos-template.shtml">
+<head id="head">
+    <link type="text/css" rel="stylesheet" href="$site.asset('gallery.css').link()">
+</head>
+<body id="body">
+    <nav style="justify-content: center; font-size: 1.5rem;">
+        <div style="margin-top: 1rem;">
+            <a href="$site.page('photos').link()">Home</a>
+        </div>
+
+        <div style="margin-top: 1rem;">
+            &nbsp; •&nbsp;
+            <a href="$site.page('photos').link().addPath('galleries')">Galleries</a>
+        </div>
+    </nav>
+
+    <div class="outer-thumbs" :if="$page.custom.get?('gallery')">
+        <div id="thumbs" class="thumbs" :loop="$site.asset($if).ziggy()">
+
+            <a href="$loop.idx.str().prefix('#focus-')" class="thumb-anchor">
+                <div :if="$loop.it.get('kind').eql('remote')">
+                    <img class="thumb" loading="lazy" src="$loop.it.get('img')" alt="">
+                </div>
+
+                <div :if="$loop.it.get('kind').eql('site')">
+                    <img class="thumb" loading="lazy" src="$site.asset($loop.it.get('img')).link()" alt="">
+                </div>
+            </a>
+
+            <div class="modal" id="$loop.idx.str().prefix('focus-')">
+                <a href="#!" class="close">×</a>
+                <a href="#!" class="modal-fill"></a>
+
+                <span :if="$loop.idx.gt(1)">
+                    <a href="$loop.idx.plus(-1).str().prefix('#focus-')" class="prev">&lt;</a>
+                </span>
+
+                <span :if="$loop.idx.eq($loop.len).not()">
+                    <a href="$loop.idx.plus(1).str().prefix('#focus-')" class="next">&gt;</a>
+                </span>
+
+                <div :if="$loop.it.get('kind').eql('remote')">
+                    <img loading="lazy" class="modal-content" src="$loop.it.get('img')" alt="">
+                </div>
+
+                <div :if="$loop.it.get('kind').eql('site')">
+                    <img loading="lazy" class="modal-content" src="$site.asset($loop.it.get('img')).link()" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

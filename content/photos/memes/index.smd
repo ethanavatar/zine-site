@@ -6,7 +6,7 @@
 .draft  = false,
 
 .custom = {
-    .gallery = "picks.json",
+    .gallery = "memes.json",
 }
 --- 
 
