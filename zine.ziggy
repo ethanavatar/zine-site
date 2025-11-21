@@ -2,8 +2,12 @@ Site {
     .title = "Ethan Evans",
     .host_url = "https://blog.eevans.xyz",
 
+    .image_size_attributes = true,
+
     .content_dir_path = "content",
     .layouts_dir_path = "layouts",
     .assets_dir_path  = "assets",
-    .static_assets    = [ ],
+    .static_assets    = [
+        "DSC3863.jpg",
+    ],
 }

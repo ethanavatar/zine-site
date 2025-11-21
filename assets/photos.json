@@ -1,118 +1,152 @@
 [
     {
+        "name": "dino",
+        "kind": "site",
+        "img": "DSC3863.jpg"
+    },
+    {
         "name": "ipod-dock",
+        "kind": "remote",
         "img": "https://preview.redd.it/using-digital-out-with-dock-running-rockbox-v0-s8xjqh4no92g1.jpeg?width=640&crop=smart&auto=webp&s=9f5b26f2e86e21778dc851d0a99c449f2336be61"
     },
     {
         "name": "gen7",
+        "kind": "remote",
         "img": "https://preview.redd.it/what-i-wish-i-had-known-earlier-so-maybe-it-can-help-you-too-v0-z6a9eddor72g1.jpeg?width=640&crop=smart&auto=webp&s=7570d8704e6081ad61c26a9aedcf72e4a708556b"
     },
     {
         "name": "asian",
+        "kind": "remote",
         "img": "https://preview.redd.it/u2zifrotdfzf1.jpeg?width=640&crop=smart&auto=webp&s=1d0a654293ae338bd505cb201c3be08dbc3abc25"
     },
     {
         "name": "makima",
+        "kind": "remote",
         "img": "https://preview.redd.it/damn-v0-4a2szy3910yf1.jpeg?format=pjpg&auto=webp&s=9e36bb7e4c34b9a7e167aac8aac51e8e1036b605"
     },
     {
         "name": "unixporn",
+        "kind": "remote",
         "img": "https://i.redd.it/clape0aupmxf1.png"
     },
     {
         "name": "the-climb",
+        "kind": "remote",
         "img": "https://i.redd.it/80khvesz4e2g1.jpeg"
     },
     {
         "name": "phos",
+        "kind": "remote",
         "img": "https://i.redd.it/mc1h2repzn1g1.jpeg"
     },
     {
         "name": "sacred-bionicles",
+        "kind": "remote",
         "img": "https://i.redd.it/140wqokfoctf1.jpeg"
     },
     {
         "name": "coughing-baby",
+        "kind": "remote",
         "img": "https://i.redd.it/k8xamok7kjqf1.jpeg"
     },
     {
         "name": "tsugimonogatari",
+        "kind": "remote",
         "img": "https://i.redd.it/nrkercqmmtpf1.jpeg"
     },
     {
         "name": "brando-vs-everyone",
+        "kind": "remote",
         "img": "https://i.redd.it/xixnhuqmbmkf1.jpeg"
     },
     {
         "name": "ground-zero-miata",
+        "kind": "remote",
         "img": "https://i.redd.it/mwgorv7c0ocf1.jpeg"
     },
     {
         "name": "yotsugi",
+        "kind": "remote",
         "img": "https://i.redd.it/24pi1rygvmaf1.png"
     },
     {
         "name": "anime-cuddle",
+        "kind": "remote",
         "img": "https://i.redd.it/d0s04rgdh48f1.png"
     },
     {
         "name": "beastars-goth",
+        "kind": "remote",
         "img": "https://i.redd.it/xodxvp18dd3f1.jpeg"
     },
     {
         "name": "solar-ash-rei",
+        "kind": "remote",
         "img": "https://i.redd.it/x1xut3gh9e1f1.jpeg"
     },
     {
         "name": "kg-works-wood",
+        "kind": "remote",
         "img": "https://i.redd.it/r7uyw1cf8k1f1.jpeg"
     },
     {
         "name": "izm_ni_1",
+        "kind": "remote",
         "img": "https://preview.redd.it/what-art-style-is-this-artist-is-izm-ni-on-twitter-v0-wxb77px2z62g1.jpg?width=640&crop=smart&auto=webp&s=78d69409c490a15428672d9ee522004b95144da7"
     },
     {
         "name": "izm_ni_2",
+        "kind": "remote",
         "img": "https://preview.redd.it/what-art-style-is-this-artist-is-izm-ni-on-twitter-v0-pd4xppx2z62g1.jpg?width=640&crop=smart&auto=webp&s=1c14e6bd2213489246bad0fa9071d9b64b926c10"
     },
     {
         "name": "izm_ni_3",
+        "kind": "remote",
         "img": "https://preview.redd.it/what-art-style-is-this-artist-is-izm-ni-on-twitter-v0-l9llyqx2z62g1.jpg?width=640&crop=smart&auto=webp&s=35decbd6be022a920a600b65eb33be54adf229c4"
     },
     {
         "name": "izm_ni_4",
+        "kind": "remote",
         "img": "https://preview.redd.it/what-art-style-is-this-artist-is-izm-ni-on-twitter-v0-c16zvrx2z62g1.jpg?width=1080&crop=smart&auto=webp&s=779dbcda2dfe4edbed22ce1a4c0f70a659679dae"
     },
     {
         "name": "shinobu-Solip_ist",
+        "kind": "remote",
         "img": "https://preview.redd.it/shinobu-v0-req324aksd2g1.jpg?width=1080&crop=smart&auto=webp&s=0cb41106b6576071fd8be16c1be2e18b02ed9fc7"
     },
     {
         "name": "maddy-and-theo",
+        "kind": "remote",
         "img": "https://i.redd.it/yhiwdii6hd2g1.jpeg"
     },
     {
         "name": "twingo",
+        "kind": "remote",
         "img": "https://preview.redd.it/first-car-of-mine-at-18-v0-qxhkc2w8eh2g1.jpg?width=640&crop=smart&auto=webp&s=0325a5f35287cd84c9aca0bca9cb0a1475c8a238"
     },
     {
         "name": "leather-ipod",
+        "kind": "remote",
         "img": "https://i.redd.it/8jbhuctt7e2g1.jpeg"
     },
     {
         "name": "MON_2501-1",
+        "kind": "remote",
         "img": "https://preview.redd.it/anyone-know-who-this-artist-is-and-how-exactly-they-even-do-v0-upjyqe1be4zf1.jpg?width=640&crop=smart&auto=webp&s=8f4d77ad2a7831cf2171c585186b30ea66e47003"
     },
     {
         "name": "MON_2501-2",
+        "kind": "remote",
         "img": "https://preview.redd.it/anyone-know-who-this-artist-is-and-how-exactly-they-even-do-v0-smwhhe1be4zf1.jpg?width=1080&crop=smart&auto=webp&s=03f2ba94dd39249a0ce1efb0c71ce5fbfbc2b49c"
     },
     {
         "name": "MON_2501-3",
+        "kind": "remote",
         "img": "https://preview.redd.it/anyone-know-who-this-artist-is-and-how-exactly-they-even-do-v0-oepfyd1be4zf1.jpg?width=640&crop=smart&auto=webp&s=a604f22ac64c72affd9c77b4bc9c50768042bd45"
     },
     {
         "name": "deleted-user",
+        "kind": "remote",
         "img": "https://preview.redd.it/hn8e82libbxf1.jpg?width=1080&crop=smart&auto=webp&s=4b9901f2b878bfa8b235faabd42c39d017003d75"
     }
 ]
