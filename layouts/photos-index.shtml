@@ -67,7 +67,7 @@
       position: fixed;
       text-decoration: none;
       top: 1rem;
-      right: 2rem;
+      right: 1rem;
       color: #f1f1f1;
       font-size: 2rem;
       font-weight: bold;
@@ -85,7 +85,7 @@
       position: fixed;
       text-decoration: none;
       top: 50%;
-      right: 2rem;
+      right: 1rem;
       color: #f1f1f1;
       font-size: 2rem;
       font-weight: bold;
@@ -103,7 +103,7 @@
       position: fixed;
       text-decoration: none;
       top: 50%;
-      left: 2rem;
+      left: 1rem;
       color: #f1f1f1;
       font-size: 2rem;
       font-weight: bold;
