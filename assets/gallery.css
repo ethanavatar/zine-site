@@ -4,9 +4,7 @@ body {
     margin:  0rem !important;
 }
 
-body:has(.modal:is(:target)) {
-    overflow: hidden;
-}
+body:has(.modal:is(:target)) { overflow: hidden; }
 
 .outer-thumbs {
     width: calc(100% - 2rem);
@@ -26,90 +24,93 @@ body:has(.modal:is(:target)) {
     resize: both;
 }
 
+.thumbs::after {
+    content: "";
+    flex: 100 0 auto;
+}
+
 .thumb-anchor {
+    text-decoration: none;
     position: relative;
     display: block;
     flex: 1 0 auto;
     margin: 0.2rem;
-    height: 10rem;
 }
 
+.thumb-anchor:hover        { z-index: 1; }
 .thumb-anchor:hover .thumb {
-  transform: scale(1.1, 1.1);
-  z-index: 2;
+    transform: scale(1.075, 1.075);
+    box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.5);
 }
 
 .thumb {
-  display: block;
-  height: 10rem;
-  width: 100%;
+    display: block;
+    height: 10rem;
+    width: 100%;
 
-  transition: transform 250ms, z-index 250ms;
-  z-index: 1;
+    transition-property: transform, box-shadow;
+    transition-duration: 125ms;
 }
 
 img.thumb {
-  object-fit: cover;
-  object-position: 50% 50%;
-}
-
-.thumbs:after {
-  content: "";
-  flex: 100 0 auto;
+    object-fit: cover;
+    object-position: 50% 50%;
 }
 
 .close {
-  position: fixed;
-  text-decoration: none;
-  top: 1rem;
-  right: 1rem;
-  color: #f1f1f1;
-  font-size: 2rem;
-  font-weight: bold;
-  transition: 0.3s;
+    position: fixed;
+    text-decoration: none;
 
-  z-index: 100;
+    top: 1rem;
+    right: 1rem;
+
+    color: #f1f1f1;
+    font-size: 2rem;
+    font-weight: bold;
+    transition: 0.3s;
+    
+    z-index: 100;
 }
 
 .close:hover, .close:focus {
-  color: #bbb;
-  cursor: pointer;
+    color: #bbb;
+    cursor: pointer;
 }
 
 .next {
-  position: fixed;
-  text-decoration: none;
-  top: 50%;
-  right: 1rem;
-  color: #f1f1f1;
-  font-size: 2rem;
-  font-weight: bold;
-  transition: 0.3s;
-
-  z-index: 100;
+    position: fixed;
+    text-decoration: none;
+    top: 50%;
+    right: 1rem;
+    color: #f1f1f1;
+    font-size: 2rem;
+    font-weight: bold;
+    transition: 0.3s;
+    
+    z-index: 100;
 }
 
 .next:hover, .next:focus {
-  color: #bbb;
-  cursor: pointer;
+    color: #bbb;
+    cursor: pointer;
 }
 
 .prev {
-  position: fixed;
-  text-decoration: none;
-  top: 50%;
-  left: 1rem;
-  color: #f1f1f1;
-  font-size: 2rem;
-  font-weight: bold;
-  transition: 0.3s;
-
-  z-index: 100;
+    position: fixed;
+    text-decoration: none;
+    top: 50%;
+    left: 1rem;
+    color: #f1f1f1;
+    font-size: 2rem;
+    font-weight: bold;
+    transition: 0.3s;
+    
+    z-index: 100;
 }
 
 .prev:hover, .prev:focus {
-  color: #bbb;
-  cursor: pointer;
+    color: #bbb;
+    cursor: pointer;
 }
 
 /* The Modal (background) */
@@ -131,15 +132,15 @@ img.thumb {
 
 /* Modal Content (image) */
 .modal-content {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-
-  max-width: 100dvw;
-  max-height: 100dvh;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    
+    max-width: 100dvw;
+    max-height: 100dvh;
 }
 
 .modal:is(:target)  { display: block; }
@@ -156,9 +157,10 @@ img.thumb {
 
 .goto-gallery {
     position: fixed;
-    text-decoration: none;
-    top: 1rem;
+
+    top: 1.5rem;
     left: 1rem;
+
     color: #f1f1f1;
     font-size: 1rem;
     font-weight: bold;

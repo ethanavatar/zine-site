@@ -3,12 +3,32 @@
   <head id="head">
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1">
+
     <title>Photos</title>
+
     <link type="text/css" rel="stylesheet" href="$site.asset('style.css').link()">
     <link type="text/css" rel="stylesheet" href="$site.asset('highlight.css').link()">
+    <link type="text/css" rel="stylesheet" href="$site.asset('gallery.css').link()">
+
+    <style>
+    hr {
+        border: none;
+        border-top: 2px solid #ccc;
+        margin: 0.125rem 0.75rem;
+    }
+    </style>
+
     <super>
   </head>
+
   <body id="body">
+    <nav style="justify-content: center; font-size: 1.5rem; margin-top: 1rem;">
+        <a href="$site.page('photos').link()">Home</a>
+
+        &nbsp;•&nbsp;
+        <a href="$site.page('photos').link().addPath('galleries')">Galleries</a>
+    </nav>
+    <hr>
     <super>
   </body>
 </html>
