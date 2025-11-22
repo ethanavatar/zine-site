@@ -1,6 +1,7 @@
 <extend template="photos-template.shtml">
 <head id="head"> </head>
 <body id="body">
+    <!--
     <div class="outer-thumbs">
         <div id="thumbs" class="thumbs" :loop="$site.asset('galleries.json').ziggy()">
             <a href="$site.page('photos').link().addPath($loop.it.get('name'))" class="thumb-anchor">
@@ -9,6 +10,23 @@
                 <div style="margin-top: 0.75rem; margin-bottom: 0.75rem;">
                     <div class="gallery-name" :text="$loop.it.get('name')"></div>
                     <div class="gallery-date" :text="$loop.it.get('date')"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    -->
+
+    <div class="outer-thumbs">
+        <div id="thumbs" class="thumbs" :loop="$site.asset('db.ziggy').ziggy()">
+            <a href="$site.page('photos').link().addPath($loop.it.get('name'))" class="thumb-anchor">
+                <img class="thumb"
+                     loading="lazy"
+                     alt=""
+                     src="$site.asset($loop.it.get('thumbnail')).link()">
+
+                <div style="margin-top: 0.75rem; margin-bottom: 0.75rem;">
+                    <div class="gallery-name" :text="$loop.it.get('name')"></div>
+                    <!-- <div class="gallery-date" :text="$loop.it.get('date')"></div> -->
                 </div>
             </a>
         </div>

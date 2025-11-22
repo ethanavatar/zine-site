@@ -1,48 +1,40 @@
 <extend template="photos-template.shtml">
 <head id="head"> </head>
 <body id="body">
-    <div class="outer-thumbs" :if="$page.custom.get?('gallery')">
-        <div id="thumbs" class="thumbs" :loop="$site.asset($if.suffix('.json')).ziggy()">
 
-            <div class="thumb-anchor">
-                <a href="$loop.idx.str().prefix('#focus-')">
-                    <div :if="$loop.it.get('kind').eql('remote')">
-                        <img class="thumb" loading="lazy" src="$loop.it.get('img')" alt="">
-                    </div>
+    <div :loop="$site.asset('db.ziggy').ziggy()">
+        <div class="outer-thumbs" :if="$loop.it.get('name').eql($page.custom.get('gallery'))">
 
-                    <div :if="$loop.it.get('kind').eql('site')">
-                        <img class="thumb" loading="lazy" src="$site.asset($loop.it.get('img')).link()" alt="">
-                    </div>
-                </a>
-            </div>
+            <div id="thumbs" class="thumbs" :loop="$loop.it.get('photos')">
 
-            <div class="modal" id="$loop.idx.str().prefix('focus-')">
-                <!-- TODO: Add darker backgrounds to these buttons -->
-                <a href="#!" class="close">×</a>
-                <a href="#!" class="modal-fill"></a>
-
-                <span :if="$loop.it.get('gallery').eql($page.custom.get('gallery')).not()">
-                    <a href="$site.page('photos').link().addPath($loop.it.get('gallery'))"
-                       class="goto-gallery">Goto Gallery</a>
-                </span>
-
-                <span :if="$loop.idx.gt(1)">
-                    <a href="$loop.idx.plus(-1).str().prefix('#focus-')" class="prev">&lt;</a>
-                </span>
-
-                <span :if="$loop.idx.eq($loop.len).not()">
-                    <a href="$loop.idx.plus(1).str().prefix('#focus-')" class="next">&gt;</a>
-                </span>
-
-                <div :if="$loop.it.get('kind').eql('remote')">
-                    <img loading="lazy" class="modal-content" src="$loop.it.get('img')" alt="">
+                <div class="thumb-anchor">
+                    <a href="$loop.idx.str().prefix('#focus-')">
+                        <img class="thumb" loading="lazy" src="$site.asset($loop.it).link()" alt="">
+                    </a>
                 </div>
 
-                <div :if="$loop.it.get('kind').eql('site')">
-                    <img loading="lazy" class="modal-content" src="$site.asset($loop.it.get('img')).link()" alt="">
+                <div class="modal" id="$loop.idx.str().prefix('focus-')">
+                    <!-- TODO: Add darker backgrounds to these buttons -->
+                    <a href="#!" class="close">×</a>
+                    <a href="#!" class="modal-fill"></a>
+
+                    <span :if="$loop.idx.gt(1)">
+                        <a href="$loop.idx.plus(-1).str().prefix('#focus-')" class="prev">&lt;</a>
+                    </span>
+
+                    <span :if="$loop.idx.eq($loop.len).not()">
+                        <a href="$loop.idx.plus(1).str().prefix('#focus-')" class="next">&gt;</a>
+                    </span>
+
+                    <img loading="lazy"
+                         class="modal-content"
+                         alt=""
+                         src="$site.asset($loop.it).link()">
                 </div>
             </div>
         </div>
     </div>
+
+  <div class="post" :html="$page.content()"></div>
 
 </body>

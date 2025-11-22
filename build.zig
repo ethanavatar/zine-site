@@ -28,6 +28,7 @@ pub fn build(b: *std.Build) void {
     const make_db = CreatePhotoDatabase.create(b, .{
         .photos_dir = b.path("assets/photos"),
         .db_file    = b.path("assets/db.ziggy"),
+        .base       = b.path("assets/"),
     });
 
     // TODO: make "mipmaps" of the 4k images at build-time so that thumbnails can be shown
@@ -35,7 +36,9 @@ pub fn build(b: *std.Build) void {
     //const build_site = zine.website(b, zine_options);
     //b.getInstallStep().dependOn(&build_site.step);
 
-    const zine_options: zine.Options = .{ .debug = .{ .optimize = optimize } };
+    const zine_options: zine.Options = .{
+        //.debug = .{ .optimize = optimize }
+    };
     const serve = b.step("serve", "Start the Zine dev server");
     const run_zine = zine.serve(b, zine_options);
     run_zine.step.dependOn(&make_db.step);
@@ -44,10 +47,12 @@ pub fn build(b: *std.Build) void {
 
 const GalleryManifest = struct {
     name: []const u8,
+    thumbnail: []const u8,
 };
 
 const Gallery = struct {
     name: []const u8,
+    thumbnail: []const u8,
     path: []const u8,
     photos: ?[][]const u8,
 };
@@ -57,6 +62,7 @@ const CreatePhotoDatabase = struct {
     const Options = struct {
         photos_dir: std.Build.LazyPath,
         db_file:    std.Build.LazyPath,
+        base:       std.Build.LazyPath,
     };
     step: std.Build.Step,
     options: Options,
@@ -73,6 +79,7 @@ const CreatePhotoDatabase = struct {
             .options = .{
                 .photos_dir = options.photos_dir.dupe(b),
                 .db_file    = options.db_file.dupe(b),
+                .base       = options.base.dupe(b),
             },
         };
         options.photos_dir.addStepDependencies(&self.step);
@@ -103,6 +110,9 @@ const CreatePhotoDatabase = struct {
         var photos = std.StringArrayHashMap(std.array_list.Managed([]const u8)).init(allocator);
         defer photos.deinit();
 
+        const base_path = self.options.base.getPath3(b, step).subPathOrDot();
+        const relative_photos_path = try std.fs.path.relative(allocator, base_path, photos_path.subPathOrDot());
+
         {
             var dir_iter = try dir.walk(allocator);
             defer dir_iter.deinit();
@@ -127,9 +137,29 @@ const CreatePhotoDatabase = struct {
                     );
 
                     const gallery_path = std.fs.path.dirname(asset.path) orelse unreachable;
+                    const thumbnail_path = try std.mem.replaceOwned(
+                        u8,
+                        allocator,
+                        try std.fs.path.join(allocator, &[_][]const u8{
+                            relative_photos_path,
+                            gallery_path,
+                            gallery.thumbnail
+                        }), "\\", "/"
+                    );
+
+                    const full_gallery_path = try std.mem.replaceOwned(
+                        u8,
+                        allocator,
+                        try std.fs.path.join(allocator, &[_][]const u8{
+                            relative_photos_path,
+                            gallery_path,
+                        }), "\\", "/"
+                    );
+
                     try galleries.put(b.dupe(gallery_path), .{
                         .name = b.dupe(gallery.name),
-                        .path = b.dupe(gallery_path),
+                        .thumbnail = thumbnail_path,
+                        .path = full_gallery_path,
                         .photos = null,
                     });
 
@@ -156,7 +186,18 @@ const CreatePhotoDatabase = struct {
                 const gallery_path = std.fs.path.dirname(asset.path) orelse unreachable;
 
                 if (photos.getPtr(gallery_path)) |list| {
-                    try list.append(b.dupe(asset.basename));
+
+                    const photo_path = try std.mem.replaceOwned(
+                        u8,
+                        allocator,
+                        try std.fs.path.join(allocator, &[_][]const u8{
+                            relative_photos_path,
+                            gallery_path,
+                            asset.basename
+                        }), "\\", "/"
+                    );
+
+                    try list.append(photo_path);
                 }
             }
         }
