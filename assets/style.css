@@ -1,30 +1,32 @@
-h1,
-h2,
-h3,
-h4,
-h5 {
-    color: #ddd;
-    font-family: "Verdana", sans-serif;
-}
-
-b,
-strong {
-    color: #fff;
-}
-
-a {
-    color: #eee;
-}
-
 html {
-    color: #ccc;
     font-family: "Georgia", serif;
     font-size: 1.2em;
     
     display: flex;
     flex-direction: row;
     justify-content: center;
+}
+
+.dark {
+    color: #ccc;
     background-color: #111;
+}
+
+.dark a {
+    color: #eee;
+}
+
+.dark b, .dark strong {
+    color: #fff;
+}
+
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5 {
+    font-family: "Verdana", sans-serif;
+    color: #ddd;
+}
+
+html, body {
+    height: 100%;
 }
 
 body {

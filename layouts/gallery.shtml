@@ -16,18 +16,21 @@
     <div :loop="$site.asset('db.ziggy').ziggy()">
 
         <div :if="$loop.it.get('id').eql($page.custom.get('gallery'))">
-            <div style="display: flex; max-height: 45dvh; max-width: calc(100dvw - 2rem); justify-content: center; margin: 1rem">
-                <img style="object-fit: contain; width: 100%; height: auto;"
-                     loading="lazy"
-                     alt=""
-                     src="$site.asset($loop.it.get('thumbnail')).link()">
-            </div>
 
-            <div style="margin: 0.75rem 0; text-align: center;">
-                <div class="gallery-title"    :text="$loop.it.get('title')"></div>
-                <div class="gallery-subtitle" :text="$loop.it.get('subtitle')"></div>
+            <div class="dark" style="padding: 1rem;">
+                <div style="display: flex; max-height: 45dvh; max-width: calc(100dvw - 2rem); justify-content: center;">
+                    <img style="object-fit: contain; width: 100%; height: auto;"
+                         loading="lazy"
+                         alt=""
+                         src="$site.asset($loop.it.get('thumbnail')).link()">
+                </div>
+
+                <div style="margin: 0.75rem 0; text-align: center;">
+                    <div class="gallery-title"    :text="$loop.it.get('title')"></div>
+                    <div class="gallery-subtitle" :text="$loop.it.get('subtitle')"></div>
+                </div>
+                <hr>
             </div>
-            <hr>
 
             <div class="outer-thumbs">
                 <div id="thumbs" class="thumbs" :loop="$loop.it.get('photos')">
