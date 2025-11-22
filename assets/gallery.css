@@ -35,21 +35,22 @@ body:has(.modal:is(:target)) { overflow: hidden; }
     display: block;
     flex: 1 0 auto;
     margin: 0.2rem;
+
+    transition-property: transform, box-shadow, color;
+    transition-duration: 125ms;
 }
 
-.thumb-anchor:hover        { z-index: 1; }
-.thumb-anchor:hover .thumb {
+.thumb-anchor:hover {
+    z-index: 1;
     transform: scale(1.075, 1.075);
-    box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.5);
+
+    color: #bbb;
 }
 
 .thumb {
     display: block;
     height: 10rem;
     width: 100%;
-
-    transition-property: transform, box-shadow;
-    transition-duration: 125ms;
 }
 
 img.thumb {

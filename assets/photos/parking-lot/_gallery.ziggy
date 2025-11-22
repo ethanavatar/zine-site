@@ -1,4 +1,5 @@
 {
-	.name = "parking-lot",
+	.title = "Parking Lot",
+    .subtitle = "11/22/2025",
 	.thumbnail = "DSC3863.jpg"
 }

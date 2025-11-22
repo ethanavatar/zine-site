@@ -46,12 +46,15 @@ pub fn build(b: *std.Build) void {
 }
 
 const GalleryManifest = struct {
-    name: []const u8,
+    title: []const u8,
+    subtitle: []const u8,
     thumbnail: []const u8,
 };
 
 const Gallery = struct {
-    name: []const u8,
+    id: []const u8,
+    title: []const u8,
+    subtitle: []const u8,
     thumbnail: []const u8,
     path: []const u8,
     photos: ?[][]const u8,
@@ -136,35 +139,37 @@ const CreatePhotoDatabase = struct {
                         .{}
                     );
 
-                    const gallery_path = std.fs.path.dirname(asset.path) orelse unreachable;
+                    const gallery_id = std.fs.path.dirname(asset.path) orelse unreachable;
                     const thumbnail_path = try std.mem.replaceOwned(
                         u8,
                         allocator,
                         try std.fs.path.join(allocator, &[_][]const u8{
                             relative_photos_path,
-                            gallery_path,
+                            gallery_id,
                             gallery.thumbnail
                         }), "\\", "/"
                     );
 
-                    const full_gallery_path = try std.mem.replaceOwned(
+                    const gallery_path = try std.mem.replaceOwned(
                         u8,
                         allocator,
                         try std.fs.path.join(allocator, &[_][]const u8{
                             relative_photos_path,
-                            gallery_path,
+                            gallery_id,
                         }), "\\", "/"
                     );
 
-                    try galleries.put(b.dupe(gallery_path), .{
-                        .name = b.dupe(gallery.name),
+                    try galleries.put(b.dupe(gallery_id), .{
+                        .id = b.dupe(gallery_id),
+                        .title = b.dupe(gallery.title),
+                        .subtitle = b.dupe(gallery.subtitle),
                         .thumbnail = thumbnail_path,
-                        .path = full_gallery_path,
+                        .path = gallery_path,
                         .photos = null,
                     });
 
                     const list = std.array_list.Managed([]const u8).init(allocator);
-                    try photos.put(b.dupe(gallery_path), list);
+                    try photos.put(b.dupe(gallery_id), list);
                 }
             }
         }

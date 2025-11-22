@@ -1,4 +1,5 @@
 {
-	.name = "rolling",
+	.title = "Rolling",
+    .subtitle = "11/22/2025",
 	.thumbnail = "DSC4367_2.jpg",
 }

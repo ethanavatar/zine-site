@@ -3,7 +3,7 @@
 <body id="body">
 
     <div :loop="$site.asset('db.ziggy').ziggy()">
-        <div class="outer-thumbs" :if="$loop.it.get('name').eql($page.custom.get('gallery'))">
+        <div class="outer-thumbs" :if="$loop.it.get('id').eql($page.custom.get('gallery'))">
 
             <div id="thumbs" class="thumbs" :loop="$loop.it.get('photos')">
 
