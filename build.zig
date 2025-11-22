@@ -25,7 +25,10 @@ pub fn build(b: *std.Build) void {
 
     b.installArtifact(lib);
 
-    const make_db = CreatePhotoDatabase.create(b, b.path("assets"));
+    const make_db = CreatePhotoDatabase.create(b, .{
+        .photos_dir = b.path("assets/photos"),
+        .db_file    = b.path("assets/db.ziggy"),
+    });
 
     // TODO: make "mipmaps" of the 4k images at build-time so that thumbnails can be shown
 
@@ -39,12 +42,26 @@ pub fn build(b: *std.Build) void {
     serve.dependOn(&run_zine.step);
 }
 
+const GalleryManifest = struct {
+    name: []const u8,
+};
+
+const Gallery = struct {
+    name: []const u8,
+    path: []const u8,
+    photos: ?[][]const u8,
+};
+
 const CreatePhotoDatabase = struct {
     const Self = @This();
+    const Options = struct {
+        photos_dir: std.Build.LazyPath,
+        db_file:    std.Build.LazyPath,
+    };
     step: std.Build.Step,
-    photos_dir: std.Build.LazyPath,
+    options: Options,
 
-    pub fn create(b: *std.Build, photos_dir: std.Build.LazyPath) *Self {
+    pub fn create(b: *std.Build, options: Options) *Self {
         const self = b.allocator.create(Self) catch unreachable;
         self.* = .{ 
             .step = std.Build.Step.init(.{
@@ -53,9 +70,13 @@ const CreatePhotoDatabase = struct {
                 .owner = b,
                 .makeFn = Self.make,
             }),
-            .photos_dir = photos_dir.dupe(b),
+            .options = .{
+                .photos_dir = options.photos_dir.dupe(b),
+                .db_file    = options.db_file.dupe(b),
+            },
         };
-        photos_dir.addStepDependencies(&self.step);
+        options.photos_dir.addStepDependencies(&self.step);
+        options.db_file.addStepDependencies(&self.step);
         return self;
     }
     
@@ -66,42 +87,96 @@ const CreatePhotoDatabase = struct {
         const self: *Self = @fieldParentPtr("step", step);
 
         step.clearWatchInputs();
-        _ = try step.addDirectoryWatchInput(self.photos_dir);
+        _ = try step.addDirectoryWatchInput(self.options.photos_dir);
 
         const allocator = b.allocator;
 
-        var file_list = std.array_list.Managed([]const u8).init(allocator);
-        defer file_list.deinit();
-
-        const path = self.photos_dir.getPath3(b, step);
-        var dir = path.root_dir.handle.openDir(path.subPathOrDot(), .{ .iterate = true, }) catch |err| {
-            return step.fail("unable to open directory '{f}': {s}", .{ path, @errorName(err), });
+        const photos_path = self.options.photos_dir.getPath3(b, step);
+        var dir = photos_path.root_dir.handle.openDir(photos_path.subPathOrDot(), .{ .iterate = true, }) catch |err| {
+            return step.fail("unable to open directory '{f}': {s}", .{ photos_path, @errorName(err), });
         };
         defer dir.close();
+
+        var galleries = std.StringArrayHashMap(Gallery).init(allocator);
+        defer galleries.deinit();
+
+        var photos = std.StringArrayHashMap(std.array_list.Managed([]const u8)).init(allocator);
+        defer photos.deinit();
+
+        {
+            var dir_iter = try dir.walk(allocator);
+            defer dir_iter.deinit();
+
+            while (try dir_iter.next()) |asset| {
+                if (std.mem.eql(u8, asset.basename, "_gallery.ziggy")) {
+                    const manifest = try dir.openFile(asset.path, .{ }); 
+                    defer manifest.close();
+
+                    const stat = try manifest.stat();
+                    const size = stat.size;
+
+                    const source = try allocator.alloc(u8, size);
+                    defer allocator.free(source);
+
+                    _ = try manifest.read(source);
+                    const gallery = try ziggy.parseLeaky(
+                        GalleryManifest,
+                        allocator,
+                        try allocator.dupeZ(u8, source),
+                        .{}
+                    );
+
+                    const gallery_path = std.fs.path.dirname(asset.path) orelse unreachable;
+                    try galleries.put(b.dupe(gallery_path), .{
+                        .name = b.dupe(gallery.name),
+                        .path = b.dupe(gallery_path),
+                        .photos = null,
+                    });
+
+                    const list = std.array_list.Managed([]const u8).init(allocator);
+                    try photos.put(b.dupe(gallery_path), list);
+                }
+            }
+        }
 
         var dir_iter = try dir.walk(allocator);
         defer dir_iter.deinit();
 
+        const photo_extensions = std.StaticStringMap(void).initComptime(.{
+            .{ ".jpg",  void },
+        });
+
         while (try dir_iter.next()) |asset| {
-            if (asset.kind == .file) {
-                try file_list.append(b.dupe(asset.path));
+            if (asset.kind != .file) continue;
+
+            const extension = std.fs.path.extension(asset.basename);
+            if (photo_extensions.get(extension)) |ext| {
+                _ = ext;
+
+                const gallery_path = std.fs.path.dirname(asset.path) orelse unreachable;
+
+                if (photos.getPtr(gallery_path)) |list| {
+                    try list.append(b.dupe(asset.basename));
+                }
             }
         }
 
-        var buffer: [512]u8 = undefined;
+        for (galleries.values(), photos.values()) |*gallery, *gallery_photos| {
+            gallery.photos = gallery_photos.items;
+        }
 
-        // TODO: Use lazyPath for this file
-        const db_path = "db.ziggy";
-        const out = std.fs.cwd().createFile(db_path, .{ }) catch |err| {
-            return step.fail("unable to open file '{s}': {s}", .{ db_path, @errorName(err), });
+        const db_path = self.options.db_file.getPath3(b, step);
+        const out = std.fs.cwd().createFile(db_path.subPathOrDot(), .{ }) catch |err| {
+            return step.fail("unable to open file '{f}': {s}", .{ db_path, @errorName(err), });
         };
         defer out.close();
         try out.setEndPos(0);
 
+        var buffer: [256]u8 = undefined;
         var writer = out.writer(&buffer);
         defer writer.end() catch unreachable;
 
         const stringify_options: ziggy.serializer.StringifyOptions = .{ .whitespace = .space_4, };
-        try ziggy.stringify(file_list.items, stringify_options, &writer.interface);
+        try ziggy.stringify(galleries.values(), stringify_options, &writer.interface);
     }
 };

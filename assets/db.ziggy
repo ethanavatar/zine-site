@@ -1,0 +1,25 @@
+[
+    {
+        .name = "parking-lot",
+        .path = "parking-lot",
+        .photos = [
+            "DSC3863.jpg",
+            "DSC3900.jpg",
+            "DSC3902.jpg",
+            "DSC3903.jpg",
+            "DSC4334.jpg",
+            "DSC4336.jpg",
+        ],
+    },
+    {
+        .name = "rolling",
+        .path = "rolling",
+        .photos = [
+            "DSC4350.jpg",
+            "DSC4357.jpg",
+            "DSC4367_0.jpg",
+            "DSC4367_1.jpg",
+            "DSC4367_2.jpg",
+        ],
+    },
+]
