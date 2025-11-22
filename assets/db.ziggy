@@ -3,7 +3,7 @@
         .id = "parking-lot",
         .title = "Parking Lot",
         .subtitle = "11/22/2025",
-        .thumbnail = "photos/parking-lot/DSC3863.jpg",
+        .thumbnail = "photos/parking-lot/DSC3903.jpg",
         .path = "photos/parking-lot",
         .photos = [
             "photos/parking-lot/DSC3863.jpg",

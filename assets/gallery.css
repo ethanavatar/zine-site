@@ -1,5 +1,5 @@
 body {
-    width:  100% !important;
+    width:   100% !important;
     padding: 0rem !important;
     margin:  0rem !important;
 }
@@ -41,10 +41,9 @@ body:has(.modal:is(:target)) { overflow: hidden; }
 }
 
 .thumb-anchor:hover {
-    z-index: 1;
     transform: scale(1.075, 1.075);
-
     color: #bbb;
+    z-index: 1;
 }
 
 .thumb {

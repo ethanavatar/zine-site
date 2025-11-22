@@ -1,35 +1,53 @@
 <extend template="photos-template.shtml">
-<head id="head"> </head>
+<head id="head">
+    <style>
+        .gallery-title {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .gallery-subtitle {
+            font-size: 1rem;
+        }
+    </style>
+</head>
 <body id="body">
 
     <div :loop="$site.asset('db.ziggy').ziggy()">
-        <div class="outer-thumbs" :if="$loop.it.get('id').eql($page.custom.get('gallery'))">
 
-            <div id="thumbs" class="thumbs" :loop="$loop.it.get('photos')">
+        <div :if="$loop.it.get('id').eql($page.custom.get('gallery'))">
+            <img style="height: 45dvh; margin: 0.75rem auto; display: block;"
+                 loading="lazy"
+                 alt=""
+                 src="$site.asset($loop.it.get('thumbnail')).link()">
 
-                <div class="thumb-anchor">
-                    <a href="$loop.idx.str().prefix('#focus-')">
-                        <img class="thumb" loading="lazy" src="$site.asset($loop.it).link()" alt="">
-                    </a>
-                </div>
+            <div style="margin: 0.75rem 0; text-align: center;">
+                <div class="gallery-title"    :text="$loop.it.get('title')"></div>
+                <div class="gallery-subtitle" :text="$loop.it.get('subtitle')"></div>
+            </div>
+            <hr>
 
-                <div class="modal" id="$loop.idx.str().prefix('focus-')">
-                    <!-- TODO: Add darker backgrounds to these buttons -->
-                    <a href="#!" class="close">×</a>
-                    <a href="#!" class="modal-fill"></a>
+            <div class="outer-thumbs">
+                <div id="thumbs" class="thumbs" :loop="$loop.it.get('photos')">
+                    <div class="thumb-anchor">
+                        <a href="$loop.idx.str().prefix('#focus-')">
+                            <img class="thumb" loading="lazy" src="$site.asset($loop.it).link()" alt="">
+                        </a>
+                    </div>
 
-                    <span :if="$loop.idx.gt(1)">
-                        <a href="$loop.idx.plus(-1).str().prefix('#focus-')" class="prev">&lt;</a>
-                    </span>
+                    <div class="modal" id="$loop.idx.str().prefix('focus-')">
+                        <!-- TODO: Add darker backgrounds to these buttons -->
+                        <a href="#!" class="close">×</a>
+                        <a href="#!" class="modal-fill"></a>
 
-                    <span :if="$loop.idx.eq($loop.len).not()">
-                        <a href="$loop.idx.plus(1).str().prefix('#focus-')" class="next">&gt;</a>
-                    </span>
+                        <a :if="$loop.idx.gt(1)" href="$loop.idx.plus(-1).str().prefix('#focus-')" class="prev">&lt;</a>
+                        <a :if="$loop.idx.eq($loop.len).not()" href="$loop.idx.plus(1).str().prefix('#focus-')" class="next">&gt;</a>
 
-                    <img loading="lazy"
-                         class="modal-content"
-                         alt=""
-                         src="$site.asset($loop.it).link()">
+                        <img loading="lazy"
+                             class="modal-content"
+                             alt=""
+                             src="$site.asset($loop.it).link()">
+                    </div>
                 </div>
             </div>
         </div>
