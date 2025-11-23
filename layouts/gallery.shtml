@@ -18,7 +18,7 @@
         <div :if="$loop.it.get('id').eql($page.custom.get('gallery'))">
 
             <div class="dark" style="padding: 1rem;">
-                <div style="display: flex; max-height: 45dvh; max-width: calc(100dvw - 2rem); justify-content: center;">
+                <div style="display: flex; max-height: 35dvh; max-width: calc(100dvw - 2rem); justify-content: center;">
                     <img style="object-fit: contain; width: 100%; height: auto;"
                          loading="lazy"
                          alt=""
