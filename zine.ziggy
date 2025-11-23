@@ -9,6 +9,5 @@ Site {
     .assets_dir_path  = "assets",
     .static_assets    = [
         "DSC3863.jpg",
-        "photos/rolling/DSC4367_2.jpg"
     ],
 }
