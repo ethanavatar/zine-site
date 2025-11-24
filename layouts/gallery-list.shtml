@@ -14,7 +14,7 @@
 <body id="body">
     <div class="outer-thumbs dark" style="flex: 1;">
         <div id="thumbs" class="thumbs" :loop="$site.asset('db.ziggy').ziggy()">
-            <a href="$site.page('photos').link().addPath($loop.it.get('id'))" class="thumb-anchor">
+            <a href="$site.page('galleries').link().addPath($loop.it.get('id'))" class="thumb-anchor">
                 <img class="thumb"
                      loading="lazy"
                      alt=""

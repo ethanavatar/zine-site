@@ -10,7 +10,7 @@
   </head>
   <body id="body">
     <nav>
-      <ctx :if="$site.page('photos').subpages().first?()">
+      <ctx :if="$site.page('galleries').subpages().first?()">
         <a href="$if.link()">Photography</a>
       </ctx>
 

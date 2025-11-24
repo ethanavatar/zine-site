@@ -24,10 +24,10 @@
         <div class="dark">
             <nav style="justify-content: center; font-size: 1.5rem; padding: 1rem 0rem; margin: 0rem;">
                 <!--
-                <a href="$site.page('photos').link()">Home</a>
+                <a href="$site.page('galleries').link()">Home</a>
                 &nbsp;•&nbsp;
                 -->
-                <a href="$site.page('photos').link().addPath('galleries')">Galleries</a>
+                <a href="$site.page('galleries').link().addPath('galleries')">Galleries</a>
             </nav>
             <hr>
         </div>
