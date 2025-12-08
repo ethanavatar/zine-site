@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head id="head">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+
+    <title>Ethan's Links</title>
+
+    <link type="text/css" rel="stylesheet" href="$site.asset('style.css').link()">
+    <link type="text/css" rel="stylesheet" href="$site.asset('highlight.css').link()">
+
+    <style>
+
+body {
+    text-align: center; 
+}
+
+a[rel~=noopener]::after {
+    content: ' ';
+
+    background-image: url("/external-link.svg");
+    filter: url("/filters.svg#whiteFilter");
+    background-size: 1rem 1rem;
+
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+
+    width: 1rem;
+    height: 1rem;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    gap: 1rem;
+}
+
+.link-container {
+    border-radius: 1rem;
+    background-color: grey;
+    padding: 20px;
+    min-width: 15rem;
+    height: 2rem;
+
+    text-decoration: none;
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: gray;
+    transition: 0.3s;
+}
+
+.link-container:hover, .link-container:focus {
+    background-color: #a6a6a6;
+    cursor: pointer;
+}
+
+.link-logo {
+    position: absolute;
+    left: 1rem;
+
+    width: 2rem;
+    height: 2rem;
+}
+
+hr {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin: 0rem 1rem;
+    margin-bottom: 1rem;
+}
+
+    </style>
+  </head>
+  <body id="body" class="dark">
+    <span style="font-size: 1.5rem; padding: 1rem 0rem; margin: 0rem;">Links</span>
+    <hr>
+
+    <div style="display: none;">
+        <div :html="$site.asset('external-link.svg').link()"></div>
+    </div>
+
+    <nav class="nav">
+        <a class="link-container" href="$site.page('galleries').link()"
+            target="_blank"
+            rel="noopener noreferrer">
+            Photography
+        </a>
+
+        <a class="link-container" href="https://bandcamp.com/ethanalexe"
+            target="_blank"
+            rel="noopener noreferrer">
+
+            <img src="$site.asset('logos/bandcamp-button-circle-aqua-512.png').link()" class="link-logo">
+            Music Collection
+        </a>
+
+        <a class="link-container" href="https://www.printables.com/@EthanAlexE_23560/models"
+                target="_blank"
+                rel="noopener noreferrer">
+
+            <svg class="link-logo" viewBox="-256 -128 1024 1024">
+                <circle cx="256" cy="385" r="512" fill="#fa682d" />
+                <image href="$site.asset('logos/printables-logo.svg').link()"
+                       filter="$site.asset('filters.svg').link().suffix('#whiteFilter').prefix('url(')"
+                       width="1024"
+                       height="1024">
+                </image>
+            </svg>
+            3D Models
+        </a>
+
+        <a class="link-container" href="https://github.com/ethanavatar"
+            target="_blank"
+            rel="noopener noreferrer">
+
+            <img src="$site.asset('logos/github-mark.svg').link()" class="link-logo">
+            GitHub
+        </a>
+
+        <a class="link-container" href="https://myanimelist.net/profile/EthanAlexE"
+            target="_blank"
+            rel="noopener noreferrer">
+
+            <img src="$site.asset('logos/MyAnimeList_favicon.svg').link()" class="link-logo">
+            MyAnimeList
+        </a>
+    </nav>
+  </body>
+</html>

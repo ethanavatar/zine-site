@@ -27,7 +27,7 @@
                 <a href="$site.page('galleries').link()">Home</a>
                 &nbsp;•&nbsp;
                 -->
-                <a href="$site.page('galleries').link().addPath('galleries')">Galleries</a>
+                <a href="$site.page('galleries').link()">Galleries</a>
             </nav>
             <hr>
         </div>

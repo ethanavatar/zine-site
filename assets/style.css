@@ -30,8 +30,10 @@ html, body {
 }
 
 body {
+/*
     width: 800px;
     padding: 15px;
+ */
     
     display: flex;
     flex-direction: column;
