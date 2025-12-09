@@ -19,7 +19,7 @@ a[rel~=noopener]::after {
     content: ' ';
 
     background-image: url("/external-link.svg");
-    filter: url("/filters.svg#whiteFilter");
+    /* filter: url("/filters.svg#whiteFilter"); */
     background-size: 1rem 1rem;
 
     display: inline-block;
