@@ -1,10 +1,7 @@
 <extend template="base.shtml">
 
 <head id="head">
-    <!--
-    <meta http-equiv='refresh' content='$site.host_url.addPath($site.page("tabs").link()).prefix("0; url=")'>
-    -->
-    <meta http-equiv='refresh' content='$site.host_url.addPath($site.page("galleries").link()).prefix("0; url=")'>
+    <meta http-equiv='refresh' content='$site.host_url.addPath($site.page("links").link()).prefix("0; url=")'>
 </head>
 
 <body id="body">
