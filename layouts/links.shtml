@@ -139,6 +139,15 @@ hr {
             <span class="link-icon"></span>
         </a>
 
+        <a class="link-container" href="https://codeberg.org/Toriatama"
+            target="_blank"
+            rel="noopener noreferrer">
+
+            <img src="$site.asset('logos/codeberg-logo_icon_white.svg').link()" class="link-logo">
+            <p>Codeberg</p>
+            <span class="link-icon"></span>
+        </a>
+
         <a class="link-container" href="https://myanimelist.net/profile/EthanAlexE"
             target="_blank"
             rel="noopener noreferrer">
